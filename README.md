@@ -1,6 +1,54 @@
+# Write up
+This project mainly consists of the following modules: **prediction, cost_function, vehicle and trajectory**.
+This program can easily run to 20 miles or more, or even 30 miles, as shown in the screenshot below.
+![screenshot](./pic_writeup/path_plan5.jpg)
+
+
+## prediction
+This module contains prediction_front, prediction_left_right two modules.they are used to predict the useful informations of of the surrounding vehicles. they include the speed **v** and the distance **diff_s** from our vehicle
+
+##  cost_function
+This fuction contains three basic function to calculate cost. **cost_buff , cost_crash, cost_save_time**.
+1. cost_buff
+cost_buff = (1/diff_s)*weight_buff
+This fuction used to punish traffic jams, The smaller the diff_s, the greater the cost value.
+
+2. cost_save_time
+cost_save_time =  weight_save_time*(max_v - front_v)/max_v
+This fuction used to punish this situation that front vehicle moving slowly.The smaller the front vehicle's v, the greater the cost value.
+
+3. cost_crash
+cost_crash = (20 - front/after_diff_s)*weighe_crash
+This fuction used to punish the crash when change_lane when other cars are within a relatively short distance. The nearer, the more dangerous, the biger the cost_crash.
+
+##  vehicle
+Use the idea of finite states maching. I've chosen three basic states here. **keep_lane, change_left, change_right**. The keep_lane is default Setting.
+1. When there is no car within 30 meters, just keep lane and accelerate the car to its maximum speed.
+2. when prediction_front tells there is a car within 30 meters. Slow down according to the speed of the car ahead.
+3. Start calculating the total cost in each state. **total cost = cost_buff + cost_save_time + cost_crash** . Then select the min cost state.
+-  If keep_lane, keep a safe distance of about 30 meters to follow the front car.
+-  If change_left, change the current lane to the left, that is lane = lane-1.
+-  If change_right, change the current lane to the right, that is lane = lane+1.
+
+**Helpful hints:** plus additional cost 10 to the total cost of change lane,helps prevent the vehicle from swinging from lane to side lane when the cost_change_left , cost_change_right and cost_keep_lane's difference is not that big.
+
+##  trajectory
+use spline to fitting trajectory. Here use 5 points to fit trajectory. 
+In order to ensure the smoothness and continuity of the trajectory, the first two points select the last point and fifth to last from the previous trajectory.
+1. If keep_lane
+The last three points select the middle point of the road 30,40,50 meters in front of the car.
+This will more help car stay in the middle of the lane while following the front car.
+2. If chenge_left or change_right
+The last three points select the middle point of the road 50,70,90 meters in front of the car.
+this will help to reduce jerk when change lane.
+
+**Helpful hints:** Choosing the fifth point from the bottom relative to the second from the bottom is very helpful in staying on the center line when follow the front car.
+
+-----
+
 # CarND-Path-Planning-Project
 Self-Driving Car Engineer Nanodegree Program
-   
+
 ### Simulator.
 You can download the Term3 Simulator which contains the Path Planning Project from the [releases tab (https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2).
 
