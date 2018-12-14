@@ -10,15 +10,15 @@ This module contains prediction_front, prediction_left_right two modules.they ar
 ##  cost_function
 This fuction contains three basic function to calculate cost. **cost_buff , cost_crash, cost_save_time**.
 1. cost_buff
-cost_buff = (1/diff_s)*weight_buff
+cost_buff = (1/diff_s)*weight_buff.
 This fuction used to punish traffic jams, The smaller the diff_s, the greater the cost value.
 
 2. cost_save_time
-cost_save_time =  weight_save_time*(max_v - front_v)/max_v
+cost_save_time =  weight_save_time*(max_v - front_v)/max_v.
 This fuction used to punish this situation that front vehicle moving slowly.The smaller the front vehicle's v, the greater the cost value.
 
 3. cost_crash
-cost_crash = (20 - front/after_diff_s)*weighe_crash
+cost_crash = (20 - front/after_diff_s)*weighe_crash.
 This fuction used to punish the crash when change_lane when other cars are within a relatively short distance. The nearer, the more dangerous, the biger the cost_crash.
 
 ##  vehicle

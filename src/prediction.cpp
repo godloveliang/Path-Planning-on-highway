@@ -1,6 +1,6 @@
 #include <vector>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include "prediction.h"
 
 using namespace std;

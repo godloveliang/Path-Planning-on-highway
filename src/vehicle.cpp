@@ -1,7 +1,7 @@
 #include "vehicle.h"
 #include <vector>
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include "cost.h"
 
 using namespace std;
